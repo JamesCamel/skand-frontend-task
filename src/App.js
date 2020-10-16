@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import axios from 'axios';
+import { Switch, Route, NavLink, Redirect, BrowserRouter} from "react-router-dom";
+import User from './containers/User';
+import UserList from './containers/UserList';
+import { Provider } from "react-redux";
+import store from './store'
 
-function App() {
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="App">
+          <Switch>
+            <Route path={"/"} exact component={UserList} />
+            <Route path={"/user/:id"} exact component={User} />
+            <Redirect to={"/"} />
+          </Switch>
+        </div>
+    </BrowserRouter>
+    </Provider>
   );
 }
 
