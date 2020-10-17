@@ -4,7 +4,6 @@ import App from './App';
 import './mockServer';
 import * as serviceWorker from './serviceWorker';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

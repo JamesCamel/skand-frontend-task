@@ -1,11 +1,10 @@
 import React from 'react';
 // import axios from 'axios';
-import { Switch, Route, NavLink, Redirect, BrowserRouter} from "react-router-dom";
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import User from './containers/User';
 import UserList from './containers/UserList';
-import { Provider } from "react-redux";
-import store from './store'
-
+import store from './store';
 
 const App = () => {
   return (
@@ -13,14 +12,14 @@ const App = () => {
       <BrowserRouter>
         <div className="App">
           <Switch>
-            <Route path={"/"} exact component={UserList} />
-            <Route path={"/users/:id"} exact component={User} />
-            <Redirect to={"/"} />
+            <Route path="/" exact component={UserList} />
+            <Route path="/users/:id" exact component={User} />
+            <Redirect to="/" />
           </Switch>
         </div>
-    </BrowserRouter>
+      </BrowserRouter>
     </Provider>
   );
-}
+};
 
 export default App;
