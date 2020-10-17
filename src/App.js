@@ -4,6 +4,7 @@ import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import User from './containers/User';
 import UserList from './containers/UserList';
+import EditForm from './containers/EditForm';
 import store from './store';
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
           <Switch>
             <Route path="/" exact component={UserList} />
             <Route path="/users/:id" exact component={User} />
+            <Route path="/users/:id/edit" exact component={EditForm} />
             <Redirect to="/" />
           </Switch>
         </div>

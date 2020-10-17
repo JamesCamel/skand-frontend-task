@@ -87,7 +87,9 @@ const UserList = (props) => {
                     />
                   </IconButton>
                   <IconButton aria-label="Edit user">
-                    <EditIcon />
+                    <EditIcon 
+                      onClick={() => props.history.push(`/users/${row.id}/edit`)}
+                    />
                   </IconButton>
                   <IconButton aria-label="Delete user">
                     <DeleteIcon 
