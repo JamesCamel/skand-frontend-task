@@ -62,7 +62,6 @@ const User = (props) => {
       </CardActions>
     </Card>
   );
-
 }
 
 export default User
