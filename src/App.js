@@ -14,7 +14,7 @@ const App = () => {
         <div className="App">
           <Switch>
             <Route path={"/"} exact component={UserList} />
-            <Route path={"/user/:id"} exact component={User} />
+            <Route path={"/users/:id"} exact component={User} />
             <Redirect to={"/"} />
           </Switch>
         </div>

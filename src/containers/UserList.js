@@ -11,9 +11,7 @@ class UserList extends React.Component {
   }
 
   render() {
-    const userList = this.props.UserList
-    // const id = userList.length ? userList[0].id : ''
-    // console.log(result.length ? result[0].id : [])
+    const userList = this.props.userList
     let data = []
     if (!_.isEmpty(userList)) {
       userList.map(user => {
@@ -43,7 +41,7 @@ class UserList extends React.Component {
             icon: 'pageview',
             tooltip: 'View User',
             onClick: (event, rowData) => {
-              this.props.history.push(`/user/${rowData.id}`)
+              this.props.history.push(`/users/${rowData.id}`)
             }
           },
           {
@@ -70,7 +68,7 @@ class UserList extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ UserList: state.UserList });
+const mapStateToProps = state => ({ userList: state.UserList });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ requestUserList }, dispatch);
