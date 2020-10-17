@@ -34,3 +34,21 @@ export const fetchUserDetail = async (userId) => {
     throw new Error(e);
   }
 };
+
+export const fetchDeleteUser = async (userId) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/v2/users/tokens', {
+      email: 'test@skand.io',
+      password: 'password',
+    });
+    const token = response.headers.authorization;
+    localStorage.setItem('authorization', token);
+    const deleteResponse = await axios.delete(`http://localhost:3000/api/v2/users/${userId}`, {
+      headers: { authorization: token },
+    });
+    console.log(deleteResponse);
+    return deleteResponse;
+  } catch (e) {
+    throw new Error(e);
+  }
+};

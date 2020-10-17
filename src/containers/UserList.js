@@ -1,5 +1,5 @@
 import React from "react";
-import { requestUserList } from "./../actions/UserList";
+import { requestUserList, requestDeleteUser } from "./../actions/UserList";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -16,8 +16,6 @@ import PageviewIcon from '@material-ui/icons/Pageview';
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Tooltip from "@material-ui/core/Tooltip";
-import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles({
   table: {
@@ -84,7 +82,7 @@ const UserList = (props) => {
                 <TableCell align="right">{row.active ? "true" : "false"}</TableCell>
                 <TableCell align="right">
                   <IconButton aria-label="View user">
-                    <PageviewIcon 
+                    <PageviewIcon
                       onClick={() => props.history.push(`/users/${row.id}`)}
                     />
                   </IconButton>
@@ -92,7 +90,14 @@ const UserList = (props) => {
                     <EditIcon />
                   </IconButton>
                   <IconButton aria-label="Delete user">
-                    <DeleteIcon />
+                    <DeleteIcon 
+                      onClick={() => {
+                        const isConfirmed = window.confirm("Are you sure to delete this user?")
+                        if (isConfirmed) {
+                          dispatch(requestDeleteUser(row.id))
+                        }
+                      }}
+                    />
                   </IconButton>
                 </TableCell>
               </TableRow>
