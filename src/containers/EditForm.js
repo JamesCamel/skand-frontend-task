@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik, Form, Field, withFormik } from 'formik';
+import { requestUpdateUserDetail } from './../actions/UserList'
 import {
   Button,
   LinearProgress,
@@ -26,10 +27,10 @@ const EditForm = (props) => {
       initialValues={{
         email: user.email || '',
         active: user.active,
-        firstName: user.first_name || '',
-        lastName: user.last_name || '',
-        slackName: user.slack_username || '',
-        jobsCount: user.jobs_count || 0
+        first_name: user.first_name || '',
+        last_name: user.last_name || '',
+        slack_username: user.slack_username || '',
+        jobs_count: user.jobs_count || 0
       }}
       enableReinitialize={true}
       validate={(values) => {
@@ -42,20 +43,24 @@ const EditForm = (props) => {
           errors.email = 'Invalid email address';
         }
 
-        if (!values.firstName) {
-          errors.firstName = 'Required'
+        if (!values.first_name) {
+          errors.first_name = 'Required'
         }
-        if (!values.lastName) {
-          errors.lastName = 'Required'
+        if (!values.last_name) {
+          errors.last_name = 'Required'
         }
 
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-        }, 500);
+        setSubmitting(false);
+        const updatedDetail = {
+          ...values,
+          id: userId
+        }
+        console.log(updatedDetail)
+        dispatch(requestUpdateUserDetail(updatedDetail))
+        props.history.push('/')
       }}
     >
       {({ submitForm, isSubmitting, touched, errors }) => (
@@ -65,7 +70,7 @@ const EditForm = (props) => {
               component={TextField}
               type="name"
               label="First Name"
-              name="firstName"
+              name="first_name"
             />
           </Box>
           <Box margin={1}>
@@ -73,7 +78,7 @@ const EditForm = (props) => {
               component={TextField}
               type="name"
               label="Last Name"
-              name="lastName"
+              name="last_name"
             />
           </Box>
           <Box margin={1}>
@@ -81,7 +86,7 @@ const EditForm = (props) => {
               component={TextField}
               type="name"
               label="Slack Name"
-              name="slackName"
+              name="slack_username"
             />
           </Box>
           <Box margin={1}>
@@ -97,7 +102,7 @@ const EditForm = (props) => {
               component={TextField}
               type="number"
               label="Jobs Count"
-              name="jobsCount"
+              name="jobs_count"
             />
           </Box>
           <Box margin={1}>

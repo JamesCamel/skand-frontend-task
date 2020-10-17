@@ -3,7 +3,8 @@ export default (state = {}, { type, data }) => {
     case "RECEIVE_USER_LIST":
       return data
     case "RECEIVE_DELETE_USER":
-      console.log(data)
+      return data
+    case "RECEIVE_UPDATE_USER_DETAIL":
       return data
     default:
       return state;

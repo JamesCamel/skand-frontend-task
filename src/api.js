@@ -52,3 +52,21 @@ export const fetchDeleteUser = async (userId) => {
     throw new Error(e);
   }
 };
+
+export const fetchUpdateUserDetail= async (payload) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/v2/users/tokens', {
+      email: 'test@skand.io',
+      password: 'password',
+    });
+    const token = response.headers.authorization;
+    localStorage.setItem('authorization', token);
+    const updatedResponse = await axios.patch(`http://localhost:3000/api/v2/users/${payload.id}`, payload, {
+      headers: { authorization: token },
+    });
+    console.log(updatedResponse);
+    return updatedResponse;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
