@@ -16,12 +16,16 @@ import PageviewIcon from '@material-ui/icons/Pageview';
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Toolbar, Tooltip, Typography } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650
   }
 });
+
+
 const isLogin = () => {
   return localStorage.getItem('token') ? true : false
 }
@@ -65,6 +69,17 @@ const UserList = (props) => {
 
   return (
     <TableContainer component={Paper}>
+      <Toolbar>
+        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+          User List
+        </Typography>
+        <Tooltip>
+          <IconButton>
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+          
+      </Toolbar>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -128,43 +143,6 @@ const UserList = (props) => {
       />
     </TableContainer>
   );
-
-
-  // return(
-  //   <MaterialTable
-  //     title="User List"
-  //     columns={[...columns]}
-  //     data={[...data]}        
-  //     actions={[
-  //       {
-  //         icon: 'pageview',
-  //         tooltip: 'View User',
-  //         onClick: (event, rowData) => {
-  //           props.history.push(`/users/${rowData.id}`)
-  //         }
-  //       },
-  //       {
-  //         icon: 'create',
-  //         tooltip: 'Edit User',
-  //         onClick: (event, rowData) => {
-  //           alert("You Edit " + rowData.id)
-  //         }
-  //       },
-  //       {
-  //         icon: 'delete',
-  //         tooltip: 'Delete User',
-  //         // onClick: (event, rowData) => confirm("You want to delete " + rowData.name)
-  //       },
-  //       {
-  //         icon: 'add',
-  //         tooltip: 'Add User',
-  //         isFreeAction: true,
-  //         onClick: (event) => alert("You want to add a new row")
-  //       }  
-  //     ]}
-  //   />
-  // )
-
 }
 
 export default UserList

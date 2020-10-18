@@ -1,5 +1,4 @@
 import React from 'react';
-// import axios from 'axios';
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import User from './containers/User';
