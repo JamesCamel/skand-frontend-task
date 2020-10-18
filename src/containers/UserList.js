@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { requestUserList, requestDeleteUser } from "./../actions/UserList";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
@@ -18,10 +18,16 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Toolbar, Tooltip, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import InputBase from '@material-ui/core/InputBase';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650
+  },
+  search: {
+    marginleft: 0,
+    position: 'relative',
+    width: '100%',
   }
 });
 
@@ -33,6 +39,10 @@ const isLogin = () => {
 const UserList = (props) => {
   const dispatch = useDispatch()
   const userList = useSelector(state => state.UserList)
+  const [page, setPage] = useState(0)
+  const [filter, setFilter] = useState("")
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const classes = useStyles();
   React.useEffect(() => {
     if (!isLogin()) {
       props.history.push('/login')
@@ -44,18 +54,17 @@ const UserList = (props) => {
   let rows = []
   if (!_.isEmpty(userList)) {
     userList.map(user => {
-      rows.push({
-        id: user.id,
-        email: user.email,
-        jobsCount: user.jobs_count,
-        active: user.active
-      })
+      if (user.email.search(filter) > -1) {
+        rows.push({
+          id: user.id,
+          email: user.email,
+          jobsCount: user.jobs_count,
+          active: user.active
+        })
+      }
     })
   }
 
-  const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -64,9 +73,12 @@ const UserList = (props) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  const handleChangeFilter = (str) => {
+    setFilter(prev => str)
+  }
+
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
   return (
     <TableContainer component={Paper}>
       <Toolbar>
@@ -75,10 +87,14 @@ const UserList = (props) => {
         </Typography>
         <Tooltip>
           <IconButton>
-            <AddIcon onClick={() => props.history.push('/users/new')}/>
+            <AddIcon onClick={() => props.history.push('/users/new')} />
           </IconButton>
         </Tooltip>
-          
+        <InputBase
+          placeholder="Search…"
+          inputProps={{ 'aria-label': 'search' }}
+          onChange={(e) => handleChangeFilter(e.target.value)}
+        />
       </Toolbar>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
@@ -108,12 +124,12 @@ const UserList = (props) => {
                     />
                   </IconButton>
                   <IconButton aria-label="Edit user">
-                    <EditIcon 
+                    <EditIcon
                       onClick={() => props.history.push(`/users/${row.id}/edit`)}
                     />
                   </IconButton>
                   <IconButton aria-label="Delete user">
-                    <DeleteIcon 
+                    <DeleteIcon
                       onClick={() => {
                         const isConfirmed = window.confirm("Are you sure to delete this user?")
                         if (isConfirmed) {
