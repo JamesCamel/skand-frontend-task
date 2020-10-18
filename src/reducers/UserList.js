@@ -6,6 +6,8 @@ export default (state = {}, { type, data }) => {
       return data
     case "RECEIVE_UPDATE_USER_DETAIL":
       return data
+    case "RECEIVE_CREATE_USER":
+      return data
     default:
       return state;
   }

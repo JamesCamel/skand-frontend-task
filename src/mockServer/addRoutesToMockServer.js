@@ -1,5 +1,6 @@
 import { Response } from 'miragejs';
 import isEqual from 'lodash/isEqual';
+let count = 1000
 
 const addRoutesToMockServer = (mockServer) => {
   // eslint-disable-next-line no-param-reassign
@@ -33,7 +34,7 @@ const addRoutesToMockServer = (mockServer) => {
     }
 
     const attributes = JSON.parse(request.requestBody);
-    const idAppendedAttributes = { ...attributes, id: 1000 };
+    const idAppendedAttributes = { ...attributes, id: count++ };
     return schema.users.create(idAppendedAttributes);
   });
   mockServer.patch('/users/:id', (schema, request) => {

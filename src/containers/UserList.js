@@ -75,7 +75,7 @@ const UserList = (props) => {
         </Typography>
         <Tooltip>
           <IconButton>
-            <AddIcon />
+            <AddIcon onClick={() => props.history.push('/users/new')}/>
           </IconButton>
         </Tooltip>
           

@@ -7,3 +7,6 @@ export const receiveDeleteUser = data => ({ type: "RECEIVE_DELETE_USER", data })
 export const requestUpdateUserDetail = payload => ({ type: "REQUEST_UPDATE_USER_DETAIL", payload });
 export const receiveUpdateUserDetail = data => ({ type: "RECEIVE_UPDATE_USER_DETAIL", data });
 
+export const requestCreateUser = payload => ({ type: "REQUEST_CREATE_USER", payload });
+export const receiveCreateUser = data => ({ type: "RECEIVE_CREATE_USER", data });
+

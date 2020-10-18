@@ -43,10 +43,21 @@ export const fetchUpdateUserDetail = async (payload) => {
     const response = await axios.patch(
       `http://localhost:3000/api/v2/users/${payload.id}`,
       payload,
-      {
-        headers: { authorization: token },
-      }
+      { headers: { authorization: token }}
     );
+    return response;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export const fetchCreateUser = async (payload) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.post('http://localhost:3000/api/v2/users/', 
+      payload,
+      { headers: { authorization: token },
+    });
     return response;
   } catch (e) {
     throw new Error(e);
