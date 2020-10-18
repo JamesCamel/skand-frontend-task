@@ -22,12 +22,19 @@ const useStyles = makeStyles({
     minWidth: 650
   }
 });
+const isLogin = () => {
+  return localStorage.getItem('token') ? true : false
+}
 
 const UserList = (props) => {
   const dispatch = useDispatch()
   const userList = useSelector(state => state.UserList)
   React.useEffect(() => {
-    dispatch(requestUserList())
+    if (!isLogin()) {
+      props.history.push('/login')
+    } else {
+      dispatch(requestUserList())
+    }
   }, [])
 
   let rows = []
@@ -41,7 +48,6 @@ const UserList = (props) => {
       })
     })
   }
-
 
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
