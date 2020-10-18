@@ -19,6 +19,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Toolbar, Tooltip, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import InputBase from '@material-ui/core/InputBase';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles({
   table: {
@@ -40,7 +42,8 @@ const UserList = (props) => {
   const dispatch = useDispatch()
   const userList = useSelector(state => state.UserList)
   const [page, setPage] = useState(0)
-  const [filter, setFilter] = useState("")
+  const [emailFilter, setEmailFilter] = useState("")
+  const [activeFilter, setActiveFileter] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const classes = useStyles();
   React.useEffect(() => {
@@ -53,8 +56,10 @@ const UserList = (props) => {
 
   let rows = []
   if (!_.isEmpty(userList)) {
-    userList.map(user => {
-      if (user.email.search(filter) > -1) {
+    userList.filter(user => {
+      return !activeFilter || user.active
+    }).map(user => {
+      if (user.email.search(emailFilter) > -1) {
         rows.push({
           id: user.id,
           email: user.email,
@@ -74,8 +79,12 @@ const UserList = (props) => {
     setPage(0);
   };
 
-  const handleChangeFilter = (str) => {
-    setFilter(prev => str)
+  const handleChangeEmailFilter = (str) => {
+    setEmailFilter(prev => str)
+  }
+
+  const handleChangeActiveFilter = () => {
+    setActiveFileter(prev => !prev)
   }
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -93,7 +102,14 @@ const UserList = (props) => {
         <InputBase
           placeholder="Search…"
           inputProps={{ 'aria-label': 'search' }}
-          onChange={(e) => handleChangeFilter(e.target.value)}
+          onChange={(e) => handleChangeEmailFilter(e.target.value)}
+        />
+        <FormControlLabel
+          value="end"
+          control={<Checkbox color="primary" />}
+          label="Active users"
+          labelPlacement="end"
+          onChange={() => handleChangeActiveFilter()}
         />
       </Toolbar>
       <Table className={classes.table} aria-label="simple table">
