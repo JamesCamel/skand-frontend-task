@@ -1,9 +1,10 @@
 import axios from 'axios';
+const root = `${window.location.protocol}//${window.location.host}/api/v2`
 
 export const fetchUserList = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get('http://localhost:3000/api/v2/users', {
+    const response = await axios.get(`${root}/users`, {
       headers: { authorization: token },
     });
     return response.data.users;
@@ -15,7 +16,7 @@ export const fetchUserList = async () => {
 export const fetchUserDetail = async (userId) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`http://localhost:3000/api/v2/users/${userId}`, {
+    const response = await axios.get(`${root}/users/${userId}`, {
       headers: { authorization: token },
     });
     const userDetail = response.data.users;
@@ -28,7 +29,7 @@ export const fetchUserDetail = async (userId) => {
 export const fetchDeleteUser = async (userId) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.delete(`http://localhost:3000/api/v2/users/${userId}`, {
+    const response = await axios.delete(`${root}/users/${userId}`, {
       headers: { authorization: token },
     });
     return response;
@@ -41,7 +42,7 @@ export const fetchUpdateUserDetail = async (payload) => {
   try {
     const token = localStorage.getItem('token');
     const response = await axios.patch(
-      `http://localhost:3000/api/v2/users/${payload.id}`,
+      `${root}/users/${payload.id}`,
       payload,
       { headers: { authorization: token } }
     );
@@ -54,7 +55,7 @@ export const fetchUpdateUserDetail = async (payload) => {
 export const fetchCreateUser = async (payload) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.post('http://localhost:3000/api/v2/users/', payload, {
+    const response = await axios.post(`${root}/users/`, payload, {
       headers: { authorization: token },
     });
     return response;
