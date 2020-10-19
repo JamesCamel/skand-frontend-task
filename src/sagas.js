@@ -1,7 +1,18 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { receiveUserList, receiveDeleteUser, receiveUpdateUserDetail, receiveCreateUser } from './actions/UserList';
+import {
+  receiveUserList,
+  receiveDeleteUser,
+  receiveUpdateUserDetail,
+  receiveCreateUser,
+} from './actions/UserList';
 import { receiveUserDetail } from './actions/User';
-import { fetchUserList, fetchUserDetail, fetchDeleteUser, fetchUpdateUserDetail, fetchCreateUser } from './api';
+import {
+  fetchUserList,
+  fetchUserDetail,
+  fetchDeleteUser,
+  fetchUpdateUserDetail,
+  fetchCreateUser,
+} from './api';
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* getUserList() {
@@ -57,12 +68,9 @@ function* getUpdateUserDetail(action) {
 function* getCreateUser(action) {
   try {
     // do api call
-    const newList = yield call(fetchUserList);
-      console.log(newList)
     const data = yield call(fetchCreateUser, action.payload);
     if (data.status === 201) {
       const newList = yield call(fetchUserList);
-      console.log(newList)
       yield put(receiveCreateUser(newList));
     } else {
       console.log(data.status);
@@ -71,7 +79,6 @@ function* getCreateUser(action) {
     throw new Error(e);
   }
 }
-
 
 // watch Saga: will listen on REQUEST_USER_ACTION
 function* watchGetUserList() {
@@ -94,13 +101,12 @@ function* watchCreateUser() {
   yield takeLatest('REQUEST_CREATE_USER', getCreateUser);
 }
 
-
 export default function* rootSaga() {
   yield all([
-    watchGetUserList(), 
-    watchGetUserDetail(), 
-    watchDeleteUser(), 
+    watchGetUserList(),
+    watchGetUserDetail(),
+    watchDeleteUser(),
     watchUpdateUserDetail(),
-    watchCreateUser()
+    watchCreateUser(),
   ]);
 }

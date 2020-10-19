@@ -5,7 +5,7 @@ import User from './containers/User';
 import UserList from './containers/UserList';
 import EditForm from './containers/EditForm';
 import Login from './containers/Login';
-import CreateForm from './containers/CreateForm'
+import CreateForm from './containers/CreateForm';
 import store from './store';
 
 const App = () => {
