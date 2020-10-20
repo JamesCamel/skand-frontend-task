@@ -34,7 +34,7 @@ jobs:
           at: .
       - aws-cli/setup
       - run: 
-          command: aws s3 sync ./build s3://$S3_BUCKET_NAME --delete
+          command: aws s3 sync ./build s3://skand-frontend-task --delete
 workflows:
   version: 2
   build-deploy:
