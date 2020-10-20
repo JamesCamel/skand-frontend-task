@@ -110,7 +110,7 @@ const UserList = (props) => {
           </IconButton>
         </Tooltip>
         <InputBase
-          placeholder="Search…"
+          placeholder="Search by email…"
           inputProps={{ 'aria-label': 'search' }}
           onChange={(e) => handleChangeEmailFilter(e.target.value)}
         />
