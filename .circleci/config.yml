@@ -1,0 +1,50 @@
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.20
+jobs:
+  build:
+    docker:
+      - image: node:11.10.1
+    working_directory: ~/repo
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn build
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - package.json
+            - node_modules
+            - src
+            - build
+  deploy:
+    executor: aws-cli/default
+    steps:
+      - attach_workspace:
+          at: .
+      - aws-cli/setup
+      - run: 
+          command: aws s3 sync ./build s3://$S3_BUCKET_NAME --delete
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          context: s3-static-website
+      - deploy:
+          context: s3-static-website
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
