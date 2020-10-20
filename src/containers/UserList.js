@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { requestUserList, requestDeleteUser } from "./../actions/UserList";
 import _ from "lodash";
 import { useDispatch } from "react-redux";
@@ -46,18 +46,27 @@ const UserList = (props) => {
   const [activeFilter, setActiveFileter] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const classes = useStyles();
+
+  const dispatchInHook = useCallback((action) => {
+    dispatch(action)
+  }, [dispatch])
+
+  const redirectInHook = useCallback((path) => {
+    return props.history.push(path)
+  }, [props.history])
+
   React.useEffect(() => {
     if (!isLogin()) {
-      props.history.push('/login')
+      redirectInHook('/login')
     } else {
-      dispatch(requestUserList())
+      dispatchInHook(requestUserList())
     }
-  }, [])
+  }, [redirectInHook, dispatchInHook])
 
   let rows = []
   if (!_.isEmpty(userList)) {
     userList.filter(user => {
-      return !activeFilter || user.active
+      return (!activeFilter || user.active)
     }).map(user => {
       if (user.email.search(emailFilter) > -1) {
         rows.push({
@@ -67,6 +76,7 @@ const UserList = (props) => {
           active: user.active
         })
       }
+      return true
     })
   }
 

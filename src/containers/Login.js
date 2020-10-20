@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from 'formik';
-import { Button, LinearProgress, FormControlLabel, makeStyles, Container, CssBaseline, Typography, Grid, Avatar} from '@material-ui/core';
+import { Button, LinearProgress, makeStyles, Container, CssBaseline, Typography, Grid, Avatar} from '@material-ui/core';
 import {TextField} from 'formik-material-ui';
 import { Snackbar } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
@@ -75,7 +75,7 @@ const Login = (props) => {
             onSubmit={async (values, { setSubmitting }) => {
               setSubmitting(false);
               try {
-                const response = await axios.post('http://localhost:3000/api/v2/users/tokens', {
+                const response = await axios.post(`${window.location.protocol}//${window.location.host}/api/v2/users/tokens`, {
                   email: values.email,
                   password: values.password
                 });

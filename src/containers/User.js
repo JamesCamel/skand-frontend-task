@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { requestUserDetail } from "./../actions/User"
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -30,9 +30,13 @@ const User = (props) => {
   const userId = props.match.params.id
   const dispatch = useDispatch()
   const user = useSelector(state => state.User)
-  React.useEffect(() => {
+  const requestUserDetailInHook = useCallback(() => {
     dispatch(requestUserDetail(userId))
-  }, [])
+  },[dispatch, userId])
+
+  React.useEffect(() => {
+    requestUserDetailInHook()
+  }, [requestUserDetailInHook])
 
   const classes = useStyles;
   const bull = <span className={classes.bullet}>•</span>;

@@ -1,5 +1,6 @@
 import axios from 'axios';
-const root = `${window.location.protocol}//${window.location.host}/api/v2`
+
+const root = `${window.location.protocol}//${window.location.host}/api/v2`;
 
 export const fetchUserList = async () => {
   try {
@@ -41,11 +42,9 @@ export const fetchDeleteUser = async (userId) => {
 export const fetchUpdateUserDetail = async (payload) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.patch(
-      `${root}/users/${payload.id}`,
-      payload,
-      { headers: { authorization: token } }
-    );
+    const response = await axios.patch(`${root}/users/${payload.id}`, payload, {
+      headers: { authorization: token },
+    });
     return response;
   } catch (e) {
     throw new Error(e);

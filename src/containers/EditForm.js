@@ -1,5 +1,5 @@
-import React from "react";
-import { Formik, Form, Field } from 'formik';
+import React, { useCallback } from "react";
+import { Formik } from 'formik';
 import { requestUpdateUserDetail } from './../actions/UserList'
 import FormFields from './../components/FormFields'
 import {
@@ -39,9 +39,13 @@ const EditForm = (props) => {
   const userId = props.match.params.id
   const dispatch = useDispatch()
   const user = useSelector(state => state.User)
-  React.useEffect(() => {
+  const requestUserDetailInHook = useCallback(() => {
     dispatch(requestUserDetail(userId))
-  }, [])
+  },[dispatch, userId])
+
+  React.useEffect(() => {
+    requestUserDetailInHook()
+  }, [requestUserDetailInHook])
 
   return (
     <Container component="main" maxWidth="xs" >
