@@ -16,7 +16,7 @@ import PageviewIcon from '@material-ui/icons/Pageview';
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Toolbar, Tooltip, Typography } from '@material-ui/core';
+import { Container, Toolbar, Tooltip, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import InputBase from '@material-ui/core/InputBase';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -99,91 +99,93 @@ const UserList = (props) => {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
   return (
-    <TableContainer component={Paper}>
-      <Toolbar>
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          User List
+    <Container maxWidth="xm">
+      <TableContainer component={Paper}>
+        <Toolbar>
+          <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+            User List
         </Typography>
-        <Tooltip>
-          <IconButton>
-            <AddIcon onClick={() => props.history.push('/users/new')} />
-          </IconButton>
-        </Tooltip>
-        <InputBase
-          placeholder="Search by email…"
-          inputProps={{ 'aria-label': 'search' }}
-          onChange={(e) => handleChangeEmailFilter(e.target.value)}
-        />
-        <FormControlLabel
-          value="end"
-          control={<Checkbox color="primary" />}
-          label="Active users"
-          labelPlacement="end"
-          onChange={() => handleChangeActiveFilter()}
-        />
-      </Toolbar>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Jobs Count</TableCell>
-            <TableCell align="right">Active</TableCell>
-            <TableCell align="right">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row, index) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell align="right">{row.email}</TableCell>
-                <TableCell align="right">{row.jobsCount}</TableCell>
-                <TableCell align="right">{row.active ? "true" : "false"}</TableCell>
-                <TableCell align="right">
-                  <IconButton aria-label="View user">
-                    <PageviewIcon
-                      onClick={() => props.history.push(`/users/${row.id}`)}
-                    />
-                  </IconButton>
-                  <IconButton aria-label="Edit user">
-                    <EditIcon
-                      onClick={() => props.history.push(`/users/${row.id}/edit`)}
-                    />
-                  </IconButton>
-                  <IconButton aria-label="Delete user">
-                    <DeleteIcon
-                      onClick={() => {
-                        const isConfirmed = window.confirm("Are you sure to delete this user?")
-                        if (isConfirmed) {
-                          dispatch(requestDeleteUser(row.id))
-                        }
-                      }}
-                    />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
+          <Tooltip>
+            <IconButton>
+              <AddIcon onClick={() => props.history.push('/users/new')} />
+            </IconButton>
+          </Tooltip>
+          <InputBase
+            placeholder="Search by email…"
+            inputProps={{ 'aria-label': 'search' }}
+            onChange={(e) => handleChangeEmailFilter(e.target.value)}
+          />
+          <FormControlLabel
+            value="end"
+            control={<Checkbox color="primary" />}
+            label="Active users"
+            labelPlacement="end"
+            onChange={() => handleChangeActiveFilter()}
+          />
+        </Toolbar>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell align="right">Email</TableCell>
+              <TableCell align="right">Jobs Count</TableCell>
+              <TableCell align="right">Active</TableCell>
+              <TableCell align="right">Actions</TableCell>
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell align="right">{row.email}</TableCell>
+                  <TableCell align="right">{row.jobsCount}</TableCell>
+                  <TableCell align="right">{row.active ? "true" : "false"}</TableCell>
+                  <TableCell align="right">
+                    <IconButton aria-label="View user">
+                      <PageviewIcon
+                        onClick={() => {props.history.push(`/users/${row.id}`)}}
+                      />
+                    </IconButton>
+                    <IconButton aria-label="Edit user">
+                      <EditIcon
+                        onClick={() => props.history.push(`/users/${row.id}/edit`)}
+                      />
+                    </IconButton>
+                    <IconButton aria-label="Delete user">
+                      <DeleteIcon
+                        onClick={() => {
+                          const isConfirmed = window.confirm("Are you sure to delete this user?")
+                          if (isConfirmed) {
+                            dispatch(requestDeleteUser(row.id))
+                          }
+                        }}
+                      />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </TableContainer>
+    </Container>
   );
 }
 
