@@ -21,6 +21,7 @@ import AddIcon from '@material-ui/icons/Add';
 import InputBase from '@material-ui/core/InputBase';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import { requestUserDetail } from "../actions/User";
 
 const useStyles = makeStyles({
   table: {
@@ -136,7 +137,7 @@ const UserList = (props) => {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => (
+              .map((row) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
                     {row.id}
@@ -147,12 +148,22 @@ const UserList = (props) => {
                   <TableCell align="right">
                     <IconButton aria-label="View user">
                       <PageviewIcon
-                        onClick={() => {props.history.push(`/users/${row.id}`)}}
+                        onClick={() => {
+                          // Preload user detail before redirect
+                          dispatch(requestUserDetail(row.id))
+                          // Delay to finish preloading data
+                          setTimeout(() => { props.history.push(`/users/${row.id}`) }, 450)
+                        }}
                       />
                     </IconButton>
                     <IconButton aria-label="Edit user">
                       <EditIcon
-                        onClick={() => props.history.push(`/users/${row.id}/edit`)}
+                        onClick={() => {
+                          // Preload user detail before redirect
+                          dispatch(requestUserDetail(row.id))
+                          // Delay to finish preloading data
+                          setTimeout(() => { props.history.push(`/users/${row.id}/edit`) }, 450)
+                        }}
                       />
                     </IconButton>
                     <IconButton aria-label="Delete user">

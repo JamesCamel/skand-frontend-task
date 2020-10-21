@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback } from "react";
 import { requestUserDetail } from "./../actions/User"
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -44,7 +44,6 @@ const User = (props) => {
 
   React.useEffect(() => {
     requestUserDetailInHook()
-    console.log(user)
   }, [requestUserDetailInHook])
 
 
@@ -68,7 +67,7 @@ const User = (props) => {
             <Typography variant="body2" component="p">
               Slack: {user.slack_username}
               <br />
-          Jobs: {user.jobs_count}
+              Jobs: {user.jobs_count}
             </Typography>
           </CardContent>
           <CardActions>
