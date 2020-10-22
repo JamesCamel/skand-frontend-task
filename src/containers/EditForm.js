@@ -41,7 +41,7 @@ const EditForm = (props) => {
   const user = useSelector(state => state.User)
   const requestUserDetailInHook = useCallback(() => {
     dispatch(requestUserDetail(userId))
-  },[dispatch, userId])
+  }, [dispatch, userId])
 
   React.useEffect(() => {
     requestUserDetailInHook()
@@ -93,14 +93,13 @@ const EditForm = (props) => {
                 ...values,
                 id: userId
               }
-              console.log(updatedDetail)
               dispatch(requestUpdateUserDetail(updatedDetail))
               props.history.push('/')
             }}
           >
 
             {({ submitForm, isSubmitting }) => (
-              <FormFields submitForm={submitForm} isSubmitting={isSubmitting}/>
+              <FormFields submitForm={submitForm} isSubmitting={isSubmitting} />
             )}
           </Formik>
         </div>
